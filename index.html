@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <button id="orcid">Sign in with ORCID</button>
+
+  <script>
+    const ORCID_AUTH = "https://orcid.org/oauth/authorize";
+    const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
+    const REDIRECT =
+      "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
+
+    document.getElementById("orcid").onclick = () => {
+      const url = new URL(ORCID_AUTH);
+      url.searchParams.set("client_id", CLIENT_ID);
+      url.searchParams.set("response_type", "code");
+      url.searchParams.set("scope", "/authenticate");
+      url.searchParams.set("redirect_uri", REDIRECT);
+      window.location.href = url.toString();
+    };
+
+    // Check if redirected back with ORCID iD
+    const params = new URLSearchParams(location.search);
+    if (params.get("orcid")) {
+      document.body.innerHTML += `<p>Logged in as: ${params.get("orcid")}</p>`;
+    }
+  </script>
+</body>
+</html>

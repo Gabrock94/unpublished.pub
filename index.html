@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <button id="orcid">Sign in with ORCID</button>
+<button id="orcid">Sign in with ORCID</button>
+<div id="status">Checking session...</div>
+<script>
+const ORCID_AUTH = "https://orcid.org/oauth/authorize";
+const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
+const REDIRECT = "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
 
-  <script>
-    const ORCID_AUTH = "https://orcid.org/oauth/authorize";
-    const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
-    const REDIRECT =
-      "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
+document.getElementById("orcid").onclick = () => {
+  const url = new URL(ORCID_AUTH);
+  url.searchParams.set("client_id", CLIENT_ID);
+  url.searchParams.set("response_type", "code");
+  url.searchParams.set("scope", "/authenticate");
+  url.searchParams.set("redirect_uri", REDIRECT);
+  window.location.href = url.toString();
+};
 
-    document.getElementById("orcid").onclick = () => {
-      const url = new URL(ORCID_AUTH);
-      url.searchParams.set("client_id", CLIENT_ID);
-      url.searchParams.set("response_type", "code");
-      url.searchParams.set("scope", "/authenticate");
-      url.searchParams.set("redirect_uri", REDIRECT);
-      window.location.href = url.toString();
-    };
+// Check for session ID in URL
+const params = new URLSearchParams(location.search);
+const sessionId = params.get('session') || sessionStorage.getItem('orcid_session');
 
-    // Check if redirected back with ORCID iD
-    const params = new URLSearchParams(location.search);
-    if (params.get("orcid")) {
-      document.body.innerHTML += `<p>Logged in as: ${params.get("orcid")}</p>`;
-    }
-  </script>
+if (sessionId) {
+  // Store in sessionStorage for future page loads
+  sessionStorage.setItem('orcid_session', sessionId);
+  
+  // Remove from URL
+  if (params.get('session')) {
+    window.history.replaceState({}, '', location.pathname);
+  }
+  
+  // Verify session
+  fetch(`https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/get-session?session=${sessionId}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.authenticated) {
+        document.getElementById('status').innerHTML = `<p>Logged in as: ${data.orcid}</p>`;
+      } else {
+        sessionStorage.removeItem('orcid_session');
+        document.getElementById('status').innerHTML = `<p>Not logged in</p>`;
+      }
+    });
+} else {
+  document.getElementById('status').innerHTML = `<p>Not logged in</p>`;
+}
+</script>
 </body>
 </html>

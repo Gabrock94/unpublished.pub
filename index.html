@@ -1,49 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORCID Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 70px;
+    }
+    .orcid-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
 <body>
-<button id="orcid">Sign in with ORCID</button>
-<div id="status">Checking session...</div>
-<script>
-const ORCID_AUTH = "https://orcid.org/oauth/authorize";
-const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
-const REDIRECT = "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">My App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" id="loginBtn">
+            <button class="btn btn-success nav-link" id="orcid">
+              <img src="https://orcid.org/assets/vectors/orcid.logo.icon.svg" alt="ORCID" class="orcid-icon">
+              Sign in with ORCID
+            </button>
+          </li>
+          <li class="nav-item" id="userInfo" style="display: none;">
+            <span class="navbar-text text-white me-3">
+              <img src="https://orcid.org/assets/vectors/orcid.logo.icon.svg" alt="ORCID" class="orcid-icon">
+              Logged in as <strong id="userName"></strong> (<span id="userOrcid"></span>)
+            </span>
+            <button class="btn btn-outline-light btn-sm" id="logoutBtn">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-document.getElementById("orcid").onclick = () => {
-  const url = new URL(ORCID_AUTH);
-  url.searchParams.set("client_id", CLIENT_ID);
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "/authenticate");
-  url.searchParams.set("redirect_uri", REDIRECT);
-  window.location.href = url.toString();
-};
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Welcome</h1>
+        <p class="lead">Please sign in with your ORCID account to continue.</p>
+      </div>
+    </div>
+  </div>
 
-// Check for session ID in URL
-const params = new URLSearchParams(location.search);
-const sessionId = params.get('session') || sessionStorage.getItem('orcid_session');
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const ORCID_AUTH = "https://orcid.org/oauth/authorize";
+    const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
+    const REDIRECT = "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
 
-if (sessionId) {
-  // Store in sessionStorage for future page loads
-  sessionStorage.setItem('orcid_session', sessionId);
-  
-  // Remove from URL
-  if (params.get('session')) {
-    window.history.replaceState({}, '', location.pathname);
-  }
-  
-  // Verify session
-  fetch(`https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/get-session?session=${sessionId}`)
-    .then(r => r.json())
-    .then(data => {
-      if (data.authenticated) {
-        document.getElementById('status').innerHTML = `<p>Logged in as: ${data.orcid}</p>`;
-      } else {
-        sessionStorage.removeItem('orcid_session');
-        document.getElementById('status').innerHTML = `<p>Not logged in</p>`;
+    document.getElementById("orcid").onclick = () => {
+      const url = new URL(ORCID_AUTH);
+      url.searchParams.set("client_id", CLIENT_ID);
+      url.searchParams.set("response_type", "code");
+      url.searchParams.set("scope", "/authenticate");
+      url.searchParams.set("redirect_uri", REDIRECT);
+      window.location.href = url.toString();
+    };
+
+    // Logout function
+    document.getElementById("logoutBtn").onclick = () => {
+      sessionStorage.removeItem('orcid_session');
+      document.getElementById('loginBtn').style.display = 'block';
+      document.getElementById('userInfo').style.display = 'none';
+      location.reload();
+    };
+
+    // Check for session ID in URL
+    const params = new URLSearchParams(location.search);
+    const sessionId = params.get('session') || sessionStorage.getItem('orcid_session');
+
+    if (sessionId) {
+      // Store in sessionStorage for future page loads
+      sessionStorage.setItem('orcid_session', sessionId);
+      
+      // Remove from URL
+      if (params.get('session')) {
+        window.history.replaceState({}, '', location.pathname);
       }
-    });
-} else {
-  document.getElementById('status').innerHTML = `<p>Not logged in</p>`;
-}
-</script>
+      
+      // Verify session
+      fetch(`https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/get-session?session=${sessionId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.authenticated) {
+            // Show user info in navbar
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('userName').textContent = data.name || 'User';
+            document.getElementById('userOrcid').textContent = data.orcid;
+          } else {
+            sessionStorage.removeItem('orcid_session');
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'none';
+          }
+        })
+        .catch(err => {
+          console.error('Error checking session:', err);
+          document.getElementById('loginBtn').style.display = 'block';
+          document.getElementById('userInfo').style.display = 'none';
+        });
+    } else {
+      document.getElementById('loginBtn').style.display = 'block';
+      document.getElementById('userInfo').style.display = 'none';
+    }
+  </script>
 </body>
 </html>

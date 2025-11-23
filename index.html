@@ -140,6 +140,7 @@
     if (sessionId) {
       // Store in sessionStorage for future page loads
       sessionStorage.setItem('orcid_session', sessionId);
+
       
       // Remove from URL
       if (params.get('session')) {
@@ -156,6 +157,10 @@
             document.getElementById('userInfo').style.display = 'flex';
             document.getElementById('userName').textContent = data.name || 'User';
             document.getElementById('userOrcid').textContent = data.orcid;
+            // After session check
+            const user_id = data.orcid; // or however you map ORCID -> user
+            window.LOGGED_IN_USER_ID = user_id;
+
           } else {
             sessionStorage.removeItem('orcid_session');
             document.getElementById('loginBtn').style.display = 'block';
@@ -172,47 +177,44 @@
       document.getElementById('userInfo').style.display = 'none';
     }
 
-    document.getElementById("saveProjectBtn").onclick = async () => {
-  const sessionId = sessionStorage.getItem('orcid_session');
-  if (!sessionId) return alert("You are not logged in");
+document.getElementById('saveProjectBtn').addEventListener('click', async () => {
+  const title = document.getElementById('projTitle').value.trim();
+  const description = document.getElementById('projDesc').value.trim();
+  const status = document.getElementById('projStatus').value;
+  const linksInput = document.getElementById('projLinks').value.trim();
+
+  if (!title || !description || !status) return alert('Please fill all required fields');
 
   const payload = {
-    title: document.getElementById("projTitle").value,
-    description: document.getElementById("projDesc").value,
-    status: document.getElementById("projStatus").value,
-    links: document.getElementById("projLinks").value
-      ? document.getElementById("projLinks").value.split(",").map(s => s.trim())
-      : null
+    user_id: LOGGED_IN_USER_ID, // replace with actual logged-in user id
+    title,
+    description,
+    status,
+    links: linksInput ? linksInput.split(',').map(l => l.trim()).filter(l => l) : []
   };
 
-  const resp = await fetch(
-    "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/add-project",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Session": sessionId
-      },
+  try {
+    const res = await fetch('https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/add-project', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }
-  );
+    });
 
-  const data = await resp.json();
+    const data = await res.json();
+    if (!res.ok) return alert('Error: ' + data.error);
 
-  if (!resp.ok) {
-    console.error(data);
-    return alert("Error saving project");
+    alert('Project added!');
+    bootstrap.Modal.getInstance(document.getElementById('newProjectModal')).hide();
+    document.getElementById('projectForm').reset();
+    console.log(data.project);
+
+  } catch (err) {
+    console.error(err);
+    alert('Unexpected error');
   }
+});
 
-  alert("Project submitted! Pending admin approval.");
-  document.getElementById("projectForm").reset();
 
-  // close modal
-  const modal = bootstrap.Modal.getInstance(
-    document.getElementById("newProjectModal")
-  );
-  modal.hide();
-};
 
   </script>
 </body>

@@ -64,7 +64,7 @@
 
 <!-- New Project Modal -->
 <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
 
       <div class="modal-header">
@@ -90,7 +90,7 @@
           <!-- Status -->
           <div class="mb-3">
             <label class="form-label">Status</label>
-            <select class="form-select" id="projStatus" required>
+            <select class="form-select form-control" id="projStatus" required>
               <option value="idea">Idea</option>
               <option value="written_not_submitted">Written but not submitted</option>
               <option value="data_collected_not_analyzed">Data collected but not analyzed</option>
@@ -101,14 +101,94 @@
           <!-- Discipline -->
           <div class="mb-3">
             <label class="form-label">Discipline</label>
-            <select class="form-select" id="projDiscipline" required>
-              <option value="">Select discipline...</option>
-              <!-- You fill this list -->
-              <option value="neuroscience">Neuroscience</option>
-              <option value="psychology">Psychology</option>
-              <option value="accessibility">Accessibility</option>
-              <option value="hci">Human-Computer Interaction</option>
-            </select>
+              <select class="form-select form-control" id="projDiscipline" required>
+                <option value="">Select discipline...</option>
+
+                <!-- Humanities -->
+                <optgroup label="Humanities">
+                  <option>Performing arts</option>
+                  <option>Visual arts</option>
+                  <option>History</option>
+                  <option>Languages and literature</option>
+                  <option>Law</option>
+                  <option>Philosophy</option>
+                  <option>Religious studies</option>
+                  <option>Divinity</option>
+                  <option>Theology</option>
+                  <option>Religion</option>
+                </optgroup>
+
+                <!-- Social Science -->
+                <optgroup label="Social science">
+                  <option>Anthropology</option>
+                  <option>Archaeology</option>
+                  <option>Business</option>
+                  <option>Economics</option>
+                  <option>Futurology</option>
+                  <option>Geography</option>
+                  <option>Linguistics</option>
+                  <option>Political science</option>
+                  <option>Psychology</option>
+                  <option>Sociology</option>
+                  <option>Area studies</option>
+                  <option>Ethnic and cultural studies</option>
+                  <option>Organizational studies</option>
+                  <option>Interdisciplinary studies</option>
+                </optgroup>
+
+                <!-- Natural Science -->
+                <optgroup label="Natural science">
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Earth science</option>
+                  <option>Astronomy</option>
+                  <option>Biology</option>
+                  <option>Life science</option>
+                  <option>Physical Science</option>
+                  <option>Space sciences</option>
+                </optgroup>
+
+                <!-- Formal Science -->
+                <optgroup label="Formal science">
+                  <option>Computer science</option>
+                  <option>Logic</option>
+                  <option>Mathematics</option>
+                  <option>Pure mathematics</option>
+                  <option>Applied mathematics</option>
+                  <option>Statistics</option>
+                </optgroup>
+
+                <!-- Applied Science -->
+                <optgroup label="Applied science">
+                  <option>Agriculture</option>
+                  <option>Architecture and design</option>
+                  <option>Education</option>
+                  <option>Chemical engineering</option>
+                  <option>Civil engineering</option>
+                  <option>Educational technology</option>
+                  <option>Electrical engineering</option>
+                  <option>Materials science</option>
+                  <option>Mechanical engineering</option>
+                  <option>Systems science</option>
+                  <option>Engineering and technology</option>
+                </optgroup>
+
+                <!-- Everything Else -->
+                <optgroup label="Specialized Fields">
+                  <option>Environmental studies and forestry</option>
+                  <option>Family and consumer science</option>
+                  <option>Human physical performance and recreation</option>
+                  <option>Journalism, media studies and communication</option>
+                  <option>Library and museum studies</option>
+                  <option>Medicine and health</option>
+                  <option>Military sciences</option>
+                  <option>Public administration</option>
+                  <option>Public policy</option>
+                  <option>Social work</option>
+                  <option>Transportation</option>
+                </optgroup>
+
+              </select>
           </div>
 
           <!-- Contact Email -->
@@ -154,7 +234,7 @@
 
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" id="saveProjectBtn">Save Project</button>
+        <button class="btn btn-primary" type="submit" id="saveProjectBtn">Save Project</button>
       </div>
 
     </div>

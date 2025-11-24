@@ -34,13 +34,13 @@ async function loadProjects(loadMore = false) {
     const links = project.links || {};
 
     const card = `
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card p-3 project-card h-100">
+      <div class="col-12 col-md-6 col-lg-8">
+        <div class="project-card">
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
               <h4 class="mb-2">${project.title}</h4>
-              ${project.discipline ? `<span class="badge bg-secondary me-2">${project.discipline}</span>` : ""}
-              ${project.status ? `<span class="badge bg-info">${project.status}</span>` : ""}
+              ${project.discipline ? `<span class="badge badge-area me-2">${project.discipline}</span>` : ""}
+              ${project.status ? `<span class="badge badge-status">${project.status}</span>` : ""}
             </div>
           </div>
           <p class="text-muted mb-3">${project.description || "No description available."}</p>
@@ -49,11 +49,11 @@ async function loadProjects(loadMore = false) {
             ${links.data_repo ? `<a target="_blank" href="${links.data_repo}"><i class="bi bi-database"></i> Dataset</a>` : ""}
             ${links.code_repo ? `<a target="_blank" href="${links.code_repo}"><i class="bi bi-github"></i> Code</a>` : ""}
             ${links.protocol ? `<a target="_blank" href="${links.protocol}"><i class="bi bi-book"></i> Protocol</a>` : ""}
-            ${links.other ? `<a target="_blank" href="${links.other}"><i class="bi bi-link"></i> Other</a>` : ""}
+            ${links.other ? `<a target="_blank" href="${links.other}"><i class="bi bi-link-45deg"></i> Other</a>` : ""}
           </div>
-          <div class="d-flex gap-2">
-            ${project.email ? `<a href="mailto:${project.email}" class="btn btn-sm btn-primary"><i class="bi bi-envelope"></i> Contact</a>` : ""}
-            ${project.user_id ? `<a href="https://orcid.org/${project.user_id}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-person-badge"></i> ORCID</a>` : ""}
+          <div class="d-flex gap-2 flex-wrap">
+            ${project.email ? `<a class="btn btn-contact btn-sm" href="mailto:${project.email}"><i class="bi bi-envelope"></i> Contact Researcher</a>` : ""}
+            ${project.user_id ? `<a href="https://orcid.org/${project.user_id}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-person-badge"></i> View ORCID</a>` : ""}
           </div>
         </div>
       </div>

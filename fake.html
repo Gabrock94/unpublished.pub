@@ -1,0 +1,66 @@
+<hmtl>
+
+  <script type="module" > 
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { faker } from "https://cdn.skypack.dev/@faker-js/faker";
+
+// --- Supabase client --- 
+const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co", 
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
+
+// Predefined disciplines and statuses
+const disciplines = [
+  "Neuroscience", "Psychology", "Computer Science", "Physics", 
+  "Biology", "Engineering", "History", "Sociology", "Mathematics"
+];
+
+const statuses = [
+  "Idea", 
+  "Written but not submitted", 
+  "Data collected but not analyzed", 
+  "Abandoned draft"
+];
+
+async function generateFakeProjects(n = 100) {
+  const projects = [];
+
+  for (let i = 0; i < n; i++) {
+    const links = {
+      preprint: faker.datatype.boolean() ? faker.internet.url() : null,
+      data_repo: faker.datatype.boolean() ? faker.internet.url() : null,
+      code_repo: faker.datatype.boolean() ? faker.internet.url() : null,
+      protocol: faker.datatype.boolean() ? faker.internet.url() : null,
+      other: faker.datatype.boolean() ? faker.internet.url() : null,
+    };
+
+    projects.push({
+      user_id: "0000-0002-9846-5767",
+      title: faker.lorem.sentence(5),
+      description: faker.lorem.paragraph(),
+      status: faker.helpers.arrayElement(statuses),
+      discipline: faker.helpers.arrayElement(disciplines),
+      email: faker.internet.email(),
+      links,
+      published: true,
+      created_at: faker.date.past()
+    });
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .insert(projects)
+    .select();
+
+  if (error) {
+    console.error("Error inserting fake projects:", error);
+  } else {
+    console.log(`Inserted ${data.length} fake projects successfully!`);
+  }
+}
+
+generateFakeProjects();
+
+    
+  </script>
+</hmtl>

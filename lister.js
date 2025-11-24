@@ -27,15 +27,15 @@ async function loadProjects() {
     const links = project.links || {};
 
     const card = `
-      <div class="col-12 col-md-6 col-lg-4">
+      <div class="col-12 col-md-8 col-lg-8">
         <div class="card p-3 project-card h-100">
 
           <!-- Title + badges -->
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
               <h4 class="mb-2">${project.title}</h4>
-              ${project.discipline ? `<span class="badge badge-area me-2">${project.discipline}</span>` : ""}
-              ${project.status ? `<span class="badge badge-status">${project.status}</span>` : ""}
+              ${project.discipline ? `<span class="badge badge-area me-2 badge-secondary bg-secondary">${project.discipline}</span>` : ""}
+              ${project.status ? `<span class="badge badge-status badge-info bg-info">${project.status}</span>` : ""}
             </div>
           </div>
 

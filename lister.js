@@ -67,10 +67,18 @@ async function loadProjects() {
           </div>
 
           <!-- Contact -->
-          ${project.email ? `
-            <a href="mailto:${project.email}" class="btn btn-contact btn-sm">
-              <i class="bi bi-envelope"></i> Contact Researcher
-            </a>` : ""}
+          <div class="d-flex gap-2">
+            ${project.email ? `
+              <a href="mailto:${project.email}" class="btn btn-contact btn-sm btn-primary">
+                <i class="bi bi-envelope"></i> Contact Researcher
+              </a>` : ""}
+
+            ${project.user_id ? `
+              <a href="https://orcid.org/${project.user_id}" target="_blank" class="btn btn-orcid btn-sm btn-outline-secondary">
+                <i class="bi bi-person-badge"></i> ORCID
+              </a>` : ""}
+          </div>
+
         </div>
       </div>
     `;

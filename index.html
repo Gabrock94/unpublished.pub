@@ -161,9 +161,6 @@
             </button>
 
             <button class="btn btn-outline-light btn-sm me-3" id="logoutBtn">Logout</button>
-            
-
-
           </li>
         </ul>
       </div>
@@ -190,7 +187,26 @@
       </div>
     </div>
   </div>
+<section id="upload" class="container mb-5">
+        <div class="upload-section">
+            <h2 class="mb-4">Upload Your Project</h2>
+            <p class="text-muted mb-4">Share your unpublished research with the community. You must be logged in with ORCID to upload.</p>
+            
+            <div class="nav-item" id="loginBtnBtm">
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle"></i> Please login with ORCID to upload a project
+            </div>
 
+          </div>
+          <div class="nav-item" id="userInfoBtm" style="display: none;">
+            <button class="btn btn-primary btn-sm me-3" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+              New Project
+            </button>
+          </div>
+
+
+        </div>
+  </section>
 <!-- New Project Modal -->
 <div class="modal fade" id="newProjectModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">

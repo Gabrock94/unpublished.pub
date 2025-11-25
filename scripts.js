@@ -16,6 +16,8 @@ const ORCID_AUTH = "https://orcid.org/oauth/authorize";
       sessionStorage.removeItem('orcid_session');
       document.getElementById('loginBtn').style.display = 'block';
       document.getElementById('userInfo').style.display = 'none';
+      document.getElementById('loginBtnBtm').style.display = 'block';
+      document.getElementById('userInfoBtm').style.display = 'none';
       location.reload();
     };
 
@@ -41,6 +43,8 @@ const ORCID_AUTH = "https://orcid.org/oauth/authorize";
             // Show user info in navbar
             document.getElementById('loginBtn').style.display = 'none';
             document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('loginBtnBtm').style.display = 'none';
+            document.getElementById('userInfoBtm').style.display = 'flex';
             document.getElementById('userName').textContent = data.name || 'User';
             document.getElementById('userOrcid').textContent = data.orcid;
             // After session check

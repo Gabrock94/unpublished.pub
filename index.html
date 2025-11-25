@@ -102,13 +102,20 @@
           <!-- Description -->
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" id="projDesc" rows="3" required></textarea>
+            <textarea class="form-control" id="projDesc" rows="3" required placeholder="Use this space to describe your project in detail. You can include:
+• What the project is/was trying to achieve
+• Why the project was not completed (e.g., lack of time, funding, interest, rejection, technical difficulty)
+• What has already been done (data collected, experiments run, code written, drafts produced)
+• What still needs to be done to finish or revive it
+• Any obstacles or decisions that led to pausing it
+• How other researchers could contribute or collaborate"></textarea>
           </div>
 
           <!-- Status -->
           <div class="mb-3">
             <label class="form-label">Status</label>
             <select class="form-select form-control" id="projStatus" required>
+            <option value="">Select one...</option>
             <option value="idea">Idea</option>
             <option value="written_not_submitted">Written but not submitted</option>
             <option value="data_collected_not_analyzed">Data collected, not analyzed</option>

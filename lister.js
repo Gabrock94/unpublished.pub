@@ -34,7 +34,7 @@ async function loadProjects(loadMore = false) {
     const links = project.links || {};
 
     const card = `
-      <div class="col-12 col-md-6 col-lg-8">
+      <div class="col-12 col-md-12 col-lg-12">
         <div class="project-card">
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>

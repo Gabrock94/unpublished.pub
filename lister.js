@@ -5,7 +5,7 @@ const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
 
 let lastLoaded = 0;
-const pageSize = 25;
+const pageSize = 10;
 
 async function loadProjects(loadMore = false) {
   const start = loadMore ? lastLoaded : 0;

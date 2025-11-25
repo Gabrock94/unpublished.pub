@@ -1,0 +1,125 @@
+ html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+    .orcid-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 70px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+
+        }
+        main {
+          flex: 1 0 auto; /* takes remaining space before footer */
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .btn-orcid {
+            background-color: #a6ce39;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-orcid:hover {
+            background-color: #8fb82e;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        
+        .badge-area {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .badge-status {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .project-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-contact {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-contact:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+        
+        .upload-section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }

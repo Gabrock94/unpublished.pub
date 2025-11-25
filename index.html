@@ -5,134 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ORCID Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-
-    html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-    .orcid-icon {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-    }
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #f8f9fa;
-            padding-top: 70px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-
-        }
-        main {
-          flex: 1 0 auto; /* takes remaining space before footer */
-        }
-
-        .navbar {
-            background-color: var(--primary-color);
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-weight: 600;
-            font-size: 1.5rem;
-            color: white !important;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 4rem 0;
-            margin-bottom: 3rem;
-        }
-        
-        .btn-orcid {
-            background-color: #a6ce39;
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-orcid:hover {
-            background-color: #8fb82e;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .project-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-        }
-        
-        .project-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-            transform: translateY(-2px);
-        }
-        
-        .badge-area {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .badge-status {
-            background-color: #95a5a6;
-            color: white;
-        }
-        
-        .project-links a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            margin-right: 1rem;
-            font-size: 0.9rem;
-        }
-        
-        .project-links a:hover {
-            text-decoration: underline;
-        }
-        
-        .btn-contact {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-        }
-        
-        .btn-contact:hover {
-            background-color: #c0392b;
-            color: white;
-        }
-        
-        .upload-section {
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .hidden {
-            display: none;
-        }
-
-        footer {
-            flex-shrink: 0;
-        }
-    </style>
+  <link href="custom.css" rel="stylesheet">
 </head>
 <body>
   <!-- Top Navigation Bar -->
@@ -236,10 +109,13 @@
           <div class="mb-3">
             <label class="form-label">Status</label>
             <select class="form-select form-control" id="projStatus" required>
-              <option value="idea">Idea</option>
-              <option value="written_not_submitted">Written but not submitted</option>
-              <option value="data_collected_not_analyzed">Data collected but not analyzed</option>
-              <option value="draft_abandoned">Abandoned draft</option>
+            <option value="idea">Idea</option>
+            <option value="written_not_submitted">Written but not submitted</option>
+            <option value="data_collected_not_analyzed">Data collected, not analyzed</option>
+            <option value="data_analyzed">Data analyzed, not written</option>
+            <option value="rejected">Rejected from journals</option>
+            <option value="abandoned">Abandoned draft</option>
+            <option value="no_funding">No fundings</option>
             </select>
           </div>
 
@@ -394,7 +270,7 @@
       <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
         <h5 class="text-uppercase mb-4 font-weight-bold">About Us</h5>
         <p>
-         Unpublished.pub helps researchers share unpublished drafts, unfinished projects, early ideas, and data to increase visibility and find new collaborators. We make early-stage research more accessible, discoverable, and open for collaboration.
+         Unpublished.pub helps researchers share unpublished drafts, unfinished projects, early ideas, and data to increase visibility and find new collaborators.
         </p>
       </div>
 

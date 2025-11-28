@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Projects</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="custom.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/0002f68031.js" crossorigin="anonymous"></script>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+function formatDate(dateString) {
+  const d = new Date(dateString);
+  return d.toLocaleDateString("en-GB");  // en-GB gives DD/MM/YYYY
+}
+
+
+// --- Supabase client --- 
+const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co", 
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
+
+
+let page = 0;
+const PAGE_SIZE = 25;
+
+// ---- DOM references ----
+const resultsContainer = document.getElementById("results");
+const loadMoreBtn = document.getElementById("loadMore");
+
+// ---- Event listeners ----
+document.getElementById("searchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  page = 0;
+  resultsContainer.innerHTML = "";
+  loadProjects();
+});
+
+document.getElementById("loadMore").addEventListener("click", () => {
+  page++;
+  loadProjects();
+});
+
+// ---- Query builder ----
+async function loadProjects() {
+  let query = supabase
+    .from("projects")
+    .select("*")
+    .eq("published", true)
+    .order("created_at", { ascending: false })
+    .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+
+// ---- Text search ----
+const search = document.getElementById("search").value.trim();
+if (search.length > 0) {
+  query = query.or(
+    `title.ilike.%${search}%,description.ilike.%${search}%`
+  );
+}
+
+
+  // ---- Discipline filter ----
+  const discipline = document.getElementById("discipline").value;
+  if (discipline !== "") {
+    console.log(discipline);
+    query = query.eq("discipline", discipline);
+  }
+
+  // ---- Status filter ----
+  const status = document.getElementById("status").value;
+  if (status !== "") {
+    console.log(status)
+    query = query.eq("status", status);
+  }
+
+  // ---- Links filter ----
+  const linkFilter = document.getElementById("links").value;
+  if (linkFilter !== "") {
+    query = query.not(linkFilter, "is", null).neq(linkFilter, "");
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Query error", error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    if (page === 0) {
+      resultsContainer.innerHTML = "<p class='text-muted'>No projects found.</p>";
+    }
+    loadMoreBtn.style.display = "none";
+    return;
+  }
+
+  // If less than PAGE_SIZE, hide load more
+  loadMoreBtn.style.display = data.length < PAGE_SIZE ? "none" : "block";
+
+  renderProjects(data);
+}
+
+function renderProjects(projects) {
+  resultsContainer.innerHTML = ""; // clear previous results
+
+  projects.forEach((p) => {
+    const card = document.createElement("div");
+    card.className = "card project-card mb-3";
+
+    // Build links section
+    const links = [];
+
+    if (p.preprint) {
+      links.push(`<a href="${p.preprint}" target="_blank" class="d-block"><i class="fa-solid fa-file"></i> Preprint</a>`);
+    }
+    if (p.data_repo) {
+      links.push(`<a href="${p.data_repo}" target="_blank" class="d-block"><i class="fa-solid fa-database"></i> Data Repository</a>`);
+    }
+    if (p.code_repo) {
+      links.push(`<a href="${p.code_repo}" target="_blank" class="d-block"><i class="fa-solid fa-code"></i> Code Repository</a>`);
+    }
+    if (p.protocol) {
+      links.push(`<a href="${p.protocol}" target="_blank" class="d-block"><i class="fa-solid fa-vial"></i> Protocol</a>`);
+    }
+    if (p.other) {
+      links.push(`<a href="${p.other}" target="_blank" class="d-block"><i class="fa-solid fa-link"></i> Other Link</a>`);
+    }
+
+    // Contact section
+    const contact = [];
+    if (p.email) {
+      contact.push(`<a href="mailto:${p.email}" class="d-block"><i class="fa-solid fa-envelope"></i> Contact Author</a>`);
+    }
+    if (p.researcher) {
+      contact.push(
+        `<a href="https://orcid.org/${p.user_id}" target="_blank" class="d-block"><i class="fa-brands fa-orcid"></i> ORCID Profile</a>`
+      );
+    }
+
+card.innerHTML = `
+  <div class="card-body">
+
+    <div class="d-flex justify-content-between align-items-start mb-1">
+      <h5 class="card-title mb-0">${p.title}</h5>
+      <span class="text-muted small">${formatDate(p.updated_at)}</span>
+    </div>
+    <div class="mb-2">
+      ${p.discipline ? `<span class="badge bg-secondary me-1">${p.discipline}</span>` : ""}
+      ${p.status ? `<span class="badge bg-info me-1">${p.status}</span>` : ""}
+    </div>
+
+    <p class="card-text text-muted">${p.description || ""}</p>
+
+
+<div class="row mt-3">
+
+  ${links.length > 0 ? `
+  <div class="col-md-6 mb-2">
+    <div class="fw-semibold text-muted small mb-1">Resources</div>
+    ${links.join("")}
+  </div>
+  ` : ""}
+
+  ${contact.length > 0 ? `
+  <div class="col-md-6 mb-2">
+    <div class="fw-semibold text-muted small mb-1">Contact</div>
+    <div class="fw-semibold mb-1">${p.researcher || "Author"}</div>
+    ${contact.join("")}
+  </div>
+  ` : ""}
+
+</div>
+
+  </div>
+`;
+
+    resultsContainer.appendChild(card);
+  });
+}
+
+
+// Initially load
+loadProjects();
+
+</script>
+</head>
+
+<body class="bg-light">
+
+<div class="container py-4">
+
+  <h1 class="mb-4">Explore Projects</h1>
+
+  <!-- Search + Filters -->
+  <form id="searchForm" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+      <input id="search" type="text" class="form-control" placeholder="Search title or description...">
+    </div>
+
+    <div class="col-md-3">
+      <select id="discipline" class="form-select">
+<option value="">All disciplines</option>
+
+                <!-- Humanities -->
+                <optgroup label="Humanities">
+                  <option>Performing arts</option>
+                  <option>Visual arts</option>
+                  <option>History</option>
+                  <option>Languages and literature</option>
+                  <option>Law</option>
+                  <option>Philosophy</option>
+                  <option>Religious studies</option>
+                  <option>Divinity</option>
+                  <option>Theology</option>
+                  <option>Religion</option>
+                </optgroup>
+
+                <!-- Social Science -->
+                <optgroup label="Social science">
+                  <option>Anthropology</option>
+                  <option>Archaeology</option>
+                  <option>Business</option>
+                  <option>Economics</option>
+                  <option>Futurology</option>
+                  <option>Geography</option>
+                  <option>Linguistics</option>
+                  <option>Political science</option>
+                  <option>Psychology</option>
+                  <option>Sociology</option>
+                  <option>Area studies</option>
+                  <option>Ethnic and cultural studies</option>
+                  <option>Organizational studies</option>
+                  <option>Interdisciplinary studies</option>
+                </optgroup>
+
+                <!-- Natural Science -->
+                <optgroup label="Natural science">
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Earth science</option>
+                  <option>Astronomy</option>
+                  <option>Biology</option>
+                  <option>Life science</option>
+                  <option>Physical Science</option>
+                  <option>Space sciences</option>
+                </optgroup>
+
+                <!-- Formal Science -->
+                <optgroup label="Formal science">
+                  <option>Computer science</option>
+                  <option>Logic</option>
+                  <option>Mathematics</option>
+                  <option>Pure mathematics</option>
+                  <option>Applied mathematics</option>
+                  <option>Statistics</option>
+                </optgroup>
+
+                <!-- Applied Science -->
+                <optgroup label="Applied science">
+                  <option>Agriculture</option>
+                  <option>Architecture and design</option>
+                  <option>Education</option>
+                  <option>Chemical engineering</option>
+                  <option>Civil engineering</option>
+                  <option>Educational technology</option>
+                  <option>Electrical engineering</option>
+                  <option>Materials science</option>
+                  <option>Mechanical engineering</option>
+                  <option>Systems science</option>
+                  <option>Engineering and technology</option>
+                </optgroup>
+
+                <!-- Everything Else -->
+                <optgroup label="Specialized Fields">
+                  <option>Environmental studies and forestry</option>
+                  <option>Family and consumer science</option>
+                  <option>Human physical performance and recreation</option>
+                  <option>Journalism, media studies and communication</option>
+                  <option>Library and museum studies</option>
+                  <option>Medicine and health</option>
+                  <option>Military sciences</option>
+                  <option>Public administration</option>
+                  <option>Public policy</option>
+                  <option>Social work</option>
+                  <option>Transportation</option>
+                </optgroup>
+
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <select id="status" class="form-select">
+        <option value="">All statuses</option>
+        <option value="idea">Idea</option>
+        <option value="written_not_submitted">Written but not submitted</option>
+        <option value="data_collected_not_analyzed">Data collected, not analyzed</option>
+        <option value="data_analyzed">Data analyzed, not written</option>
+        <option value="rejected">Rejected from journals</option>
+        <option value="abandoned">Abandoned draft</option>
+        <option value="thesis">Published as Thesis</option>
+        <option value="no_funding">No fundings</option>
+      </select>
+    </div>
+<div class="col-md-2">
+  <select id="links" class="form-select">
+    <option value="">Links: Any</option>
+    <option value="preprint">Has Preprint</option>
+    <option value="data_repo">Has Data Repository</option>
+    <option value="code_repo">Has Code Repository</option>
+    <option value="protocol">Has Protocol</option>
+    <option value="other">Has Other Link</option>
+  </select>
+</div>
+
+    <div class="col-md-1 d-grid">
+      <button type="submit" class="btn btn-primary">Go</button>
+    </div>
+  </form>
+
+  <!-- Results -->
+  <div id="results"></div>
+
+  <!-- Pagination -->
+  <div class="text-center mt-4">
+    <button id="loadMore" class="btn btn-outline-primary">Load More</button>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -11,15 +11,18 @@ const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co",
 
 // Predefined disciplines and statuses
 const disciplines = [
-  "Neuroscience", "Psychology", "Computer Science", "Physics", 
-  "Biology", "Engineering", "History", "Sociology", "Mathematics"
+"Performing arts", "Visual arts", "History", "Languages and literature", "Law", "Philosophy", "Religious studies", "Divinity", "Theology", "Religion", "Anthropology", "Archaeology", "Business", "Economics", "Futurology", "Geography", "Linguistics", "Political science", "Psychology", "Sociology", "Area studies", "Ethnic and cultural studies", "Organizational studies", "Interdisciplinary studies", "Physics", "Chemistry", "Earth science", "Astronomy", "Biology", "Life science", "Physical Science", "Space sciences", "Computer science", "Logic", "Mathematics", "Pure mathematics", "Applied mathematics", "Statistics", "Agriculture", "Architecture and design", "Education", "Chemical engineering", "Civil engineering", "Educational technology", "Electrical engineering", "Materials science", "Mechanical engineering", "Systems science", "Engineering and technology", "Environmental studies and forestry", "Family and consumer science", "Human physical performance and recreation", "Journalism, media studies and communication", "Library and museum studies", "Medicine and health", "Military sciences", "Public administration", "Public policy", "Social work", "Transportation"
 ];
 
 const statuses = [
-  "Idea", 
-  "Written but not submitted", 
-  "Data collected but not analyzed", 
-  "Abandoned draft"
+  "idea", 
+  "written_not_submitted", 
+  "data_collected_not_analyzed", 
+  "data_analyzed",
+  "rejected",
+  "abandoned",
+  "thesis",
+  "no_funding"
 ];
 
 async function generateFakeProjects(n = 100) {
@@ -27,21 +30,22 @@ async function generateFakeProjects(n = 100) {
 
   for (let i = 0; i < n; i++) {
     const links = {
-      preprint: faker.datatype.boolean() ? faker.internet.url() : null,
-      data_repo: faker.datatype.boolean() ? faker.internet.url() : null,
-      code_repo: faker.datatype.boolean() ? faker.internet.url() : null,
-      protocol: faker.datatype.boolean() ? faker.internet.url() : null,
-      other: faker.datatype.boolean() ? faker.internet.url() : null,
+      
     };
 
     projects.push({
       user_id: "0000-0002-9846-5767",
+      researcher: faker.person.fullName(),
       title: faker.lorem.sentence(5),
       description: faker.lorem.paragraph(),
       status: faker.helpers.arrayElement(statuses),
       discipline: faker.helpers.arrayElement(disciplines),
       email: faker.internet.email(),
-      links,
+      preprint: faker.datatype.boolean() ? faker.internet.url() : null,
+      data_repo: faker.datatype.boolean() ? faker.internet.url() : null,
+      code_repo: faker.datatype.boolean() ? faker.internet.url() : null,
+      protocol: faker.datatype.boolean() ? faker.internet.url() : null,
+      other: faker.datatype.boolean() ? faker.internet.url() : null,
       published: true,
       created_at: faker.date.past()
     });

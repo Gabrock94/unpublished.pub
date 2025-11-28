@@ -30,36 +30,110 @@ async function loadProjects(loadMore = false) {
   const container = document.getElementById("project-list");
   if (!loadMore) container.innerHTML = "";
 
-  data.forEach((project) => {
-    const links = project.links || {};
+  // data.forEach((project) => {
 
-    const card = `
-      <div class="col-12 col-md-12 col-lg-12">
-        <div class="project-card">
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <div>
-              <h4 class="mb-2">${project.title}</h4>
-              ${project.discipline ? `<span class="badge badge-area me-2">${project.discipline}</span>` : ""}
-              ${project.status ? `<span class="badge badge-status">${project.status}</span>` : ""}
-            </div>
-          </div>
-          <p class="text-muted mb-3">${project.description || "No description available."}</p>
-          <div class="project-links mb-3">
-            ${links.preprint ? `<a target="_blank" href="${links.preprint}"><i class="bi bi-file-earmark-text"></i> Preprint</a>` : ""}
-            ${links.data_repo ? `<a target="_blank" href="${links.data_repo}"><i class="bi bi-database"></i> Dataset</a>` : ""}
-            ${links.code_repo ? `<a target="_blank" href="${links.code_repo}"><i class="bi bi-github"></i> Code</a>` : ""}
-            ${links.protocol ? `<a target="_blank" href="${links.protocol}"><i class="bi bi-book"></i> Protocol</a>` : ""}
-            ${links.other ? `<a target="_blank" href="${links.other}"><i class="bi bi-link-45deg"></i> Other</a>` : ""}
-          </div>
-          <div class="d-flex gap-2 flex-wrap">
-            ${project.email ? `<a class="btn btn-contact btn-sm" href="mailto:${project.email}"><i class="bi bi-envelope"></i> Contact Researcher</a>` : ""}
-            ${project.user_id ? `<a href="https://orcid.org/${project.user_id}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-person-badge"></i> View ORCID</a>` : ""}
-          </div>
-        </div>
-      </div>
-    `;
-    container.insertAdjacentHTML("beforeend", card);
+  //   const card = `
+  //     <div class="col-12 col-md-12 col-lg-12">
+  //       <div class="project-card">
+  //         <div class="d-flex justify-content-between align-items-start mb-3">
+  //           <div>
+  //             <h4 class="mb-2">${project.title}</h4>
+  //             ${project.discipline ? `<span class="badge badge-area me-2">${project.discipline}</span>` : ""}
+  //             ${project.status ? `<span class="badge badge-status">${project.status}</span>` : ""}
+  //           </div>
+  //         </div>
+  //         <p class="text-muted mb-3">${project.description || "No description available."}</p>
+  //         <div class="project-links mb-3">
+  //           ${project.preprint ? `<a target="_blank" href="${project.preprint}"><i class="bi bi-file-earmark-text"></i> Preprint</a>` : ""}
+  //           ${project.data_repo ? `<a target="_blank" href="${project.data_repo}"><i class="bi bi-database"></i> Dataset</a>` : ""}
+  //           ${project.code_repo ? `<a target="_blank" href="${project.code_repo}"><i class="bi bi-github"></i> Code</a>` : ""}
+  //           ${project.protocol ? `<a target="_blank" href="${project.protocol}"><i class="bi bi-book"></i> Protocol</a>` : ""}
+  //           ${project.other ? `<a target="_blank" href="${project.other}"><i class="bi bi-link-45deg"></i> Other</a>` : ""}
+  //         </div>
+  //         <div class="d-flex gap-2 flex-wrap">
+  //           ${project.email ? `<a class="btn btn-contact btn-sm" href="mailto:${project.email}"><i class="bi bi-envelope"></i> Contact Researcher</a>` : ""}
+  //           ${project.user_id ? `<a href="https://orcid.org/${project.user_id}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-person-badge"></i> View ORCID</a>` : ""}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   `;
+  //   container.insertAdjacentHTML("beforeend", card);
+  // });
+
+  projects.forEach((p) => {
+    const card = document.createElement("div");
+    card.className = "card project-card mb-3";
+
+    // Build links section
+    const links = [];
+
+    if (p.preprint) {
+      links.push(`<a href="${p.preprint}" target="_blank" class="d-block"><i class="fa-solid fa-file"></i> Preprint</a>`);
+    }
+    if (p.data_repo) {
+      links.push(`<a href="${p.data_repo}" target="_blank" class="d-block"><i class="fa-solid fa-database"></i> Data Repository</a>`);
+    }
+    if (p.code_repo) {
+      links.push(`<a href="${p.code_repo}" target="_blank" class="d-block"><i class="fa-solid fa-code"></i> Code Repository</a>`);
+    }
+    if (p.protocol) {
+      links.push(`<a href="${p.protocol}" target="_blank" class="d-block"><i class="fa-solid fa-vial"></i> Protocol</a>`);
+    }
+    if (p.other) {
+      links.push(`<a href="${p.other}" target="_blank" class="d-block"><i class="fa-solid fa-link"></i> Other Link</a>`);
+    }
+
+    // Contact section
+    const contact = [];
+    if (p.email) {
+      contact.push(`<a href="mailto:${p.email}" class="d-block"><i class="fa-solid fa-envelope"></i> Contact Author</a>`);
+    }
+    if (p.researcher) {
+      contact.push(
+        `<a href="https://orcid.org/${p.user_id}" target="_blank" class="d-block"><i class="fa-brands fa-orcid"></i> ORCID Profile</a>`
+      );
+    }
+
+card.innerHTML = `
+  <div class="card-body">
+
+    <div class="d-flex justify-content-between align-items-start mb-1">
+      <h5 class="card-title mb-0">${p.title}</h5>
+      <span class="text-muted small">${formatDate(p.updated_at)}</span>
+    </div>
+    <div class="mb-2">
+      ${p.discipline ? `<span class="badge bg-secondary me-1">${p.discipline}</span>` : ""}
+      ${p.status ? `<span class="badge bg-info me-1">${p.status}</span>` : ""}
+    </div>
+
+    <p class="card-text text-muted">${p.description || ""}</p>
+
+
+<div class="row mt-3">
+
+  ${links.length > 0 ? `
+  <div class="col-md-6 mb-2">
+    <div class="fw-semibold text-muted small mb-1">Resources</div>
+    ${links.join("")}
+  </div>
+  ` : ""}
+
+  ${contact.length > 0 ? `
+  <div class="col-md-6 mb-2">
+    <div class="fw-semibold text-muted small mb-1">Contact</div>
+    <div class="fw-semibold mb-1">${p.researcher || "Author"}</div>
+    ${contact.join("")}
+  </div>
+  ` : ""}
+
+</div>
+
+  </div>
+`;
+
+container.insertAdjacentHTML("beforeend", card);
   });
+  
 
   lastLoaded += data.length;
 

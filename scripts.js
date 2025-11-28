@@ -109,13 +109,11 @@ document.getElementById('saveProjectBtn').addEventListener('click', async () => 
     status,
     discipline,
     email,
-    links: {
-      preprint: preprint || null,
-      data_repo: dataRepo || null,
-      code_repo: codeRepo || null,
-      protocol: protocol || null,
-      other: otherUrl || null
-    }
+    preprint: preprint || null,
+    data_repo: dataRepo || null,
+    code_repo: codeRepo || null,
+    protocol: protocol || null,
+    other: otherUrl || null
   };
 
   try {

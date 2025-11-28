@@ -186,7 +186,44 @@ loadProjects();
 </head>
 
 <body class="bg-light">
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">UNPUBLISHED.PUB</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" id="loginBtn">
+            <button class="btn btn-success nav-link" id="orcid">
+              <img src="https://orcid.org/assets/vectors/orcid.logo.icon.svg" alt="ORCID" class="orcid-icon">
+              Sign in with ORCID
+            </button>
+          </li>
+          <li class="nav-item" id="userInfo" style="display: none;">
+            <span class="navbar-text text-white me-3">
+              <img src="https://orcid.org/assets/vectors/orcid.logo.icon.svg" alt="ORCID" class="orcid-icon">
+              Logged in as <strong id="userName"></strong> (<span id="userOrcid"></span>)
+            </span>
+            
+            <!-- <button class="btn btn-primary btn-sm me-3" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+              New Project
+            </button> -->
 
+            <button class="btn btn-outline-light btn-sm me-3" id="logoutBtn">Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 mb-3">Share Your Unpublished Research</h1>
+            <p class="lead mb-4">A portal for researchers to share unfinished projects, find collaborators, and prevent research from going to waste</p>
+        </div>
+    </section>
 <div class="container py-4">
 
   <h1 class="mb-4">Explore Projects</h1>
@@ -327,6 +364,80 @@ loadProjects();
   </div>
 
 </div>
+<!-- Footer -->
+<footer class="bg-dark text-white pt-5 pb-4 mt-5">
+  <div class="container text-md-left">
+    <div class="row text-md-left">
 
+      <!-- About -->
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
+        <h5 class="text-uppercase mb-4 font-weight-bold">About Us</h5>
+        <p>
+         Unpublished.pub helps researchers share unpublished drafts, unfinished projects, early ideas, and data to increase visibility and find new collaborators.
+        </p>
+      </div>
+
+      <!-- FAQ -->
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+        <p><a href="aboutus.html" class="text-white text-decoration-none">About Us</a></p>
+        <p><a href="faq.html" class="text-white text-decoration-none">FAQ</a></p>
+      </div>
+
+      <!-- Policies -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+        <h5 class="text-uppercase mb-4 font-weight-bold">Policies</h5>
+        <p><a href="privacypolicy.html" class="text-white text-decoration-none">Privacy Policy</a></p>
+        <p><a href="termsofservice.html" class="text-white text-decoration-none">Terms of Service</a></p>
+        <p><a href="cookiepolicy.html" class="text-white text-decoration-none">Cookie Policy</a></p>
+        <p><a href="dataretention.html" class="text-white text-decoration-none">Data Retention</a></p>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+        <h5 class="text-uppercase mb-4 font-weight-bold">Contact</h5>
+        <p><i class="bi bi-envelope-fill me-2"></i>info@unpublished.pub</p>
+      </div>
+
+    </div>
+
+    <hr class="mb-4">
+
+    <!-- Social + Copyright -->
+    <div class="row align-items-center">
+
+      <div class="col-md-7 col-lg-8">
+        <p class="mb-0">
+          © 2025 Unpublished.pub 
+        </p>
+      </div>
+
+      <div class="col-md-5 col-lg-4">
+        <div class="text-center text-md-right">
+          <a href="#" class="text-white me-3"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-github"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+<script src="scripts.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("searchForm");
+
+  // All inputs and selects inside the form
+  form.querySelectorAll("input, select").forEach(el => {
+    el.addEventListener("change", () => form.requestSubmit());
+  });
+
+  // // Extra: auto-submit while typing (optional)
+  // const searchInput = document.getElementById("search");
+  // searchInput.addEventListener("input", () => form.requestSubmit());
+});
+
+</script>
 </body>
 </html>

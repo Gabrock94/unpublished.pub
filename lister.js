@@ -60,7 +60,7 @@ async function loadProjects(loadMore = false) {
   //   container.insertAdjacentHTML("beforeend", card);
   // });
 
-  projects.forEach((p) => {
+  data.forEach((p) => {
     const card = document.createElement("div");
     card.className = "card project-card mb-3";
 

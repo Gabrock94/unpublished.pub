@@ -8,7 +8,7 @@ const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
 
 let lastLoaded = 0;
-const pageSize = 10;
+const pageSize = 5;
 
 async function loadProjects(loadMore = false) {
   const start = loadMore ? lastLoaded : 0;
@@ -71,7 +71,7 @@ card.innerHTML = `
   <div class="card-body">
 
     <div class="d-flex justify-content-between align-items-start mb-1">
-      <h5 class="card-title mb-0">${p.title}</h5>
+      <h3 class="card-title mb-0">${p.title}</h3>
       <span class="text-muted small">${formatDate(p.updated_at)}</span>
     </div>
     <div class="mb-2">

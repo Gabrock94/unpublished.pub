@@ -15,6 +15,14 @@ function formatDate(dateString) {
   return d.toLocaleDateString("en-GB");  // en-GB gives DD/MM/YYYY
 }
 
+const statusDict = {idea: "Idea",
+written_not_submitted: "Written but not submitted",
+data_collected_not_analyzed: "Data collected, not analyzed",
+data_analyzed: "Data analyzed, not written",
+rejected: "Rejected from journals",
+abandoned: "Abandoned draft",
+thesis: "Published as Thesis",
+no_funding: "No fundings"};
 
 // --- Supabase client --- 
 const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co", 
@@ -129,11 +137,11 @@ function renderProjects(projects) {
     // Contact section
     const contact = [];
     if (p.email) {
-      contact.push(`<a href="mailto:${p.email}" class="d-block"><i class="fa-solid fa-envelope"></i> Contact Author</a>`);
+      contact.push(`<a href="mailto:${p.email}"><i class="fa-solid fa-envelope iconred"></i></a>`);
     }
     if (p.researcher) {
       contact.push(
-        `<a href="https://orcid.org/${p.user_id}" target="_blank" class="d-block"><i class="fa-brands fa-orcid"></i> ORCID Profile</a>`
+        `<a href="https://orcid.org/${p.user_id}" target="_blank" ><i class="fa-brands fa-orcid icongreen"></i></a>`
       );
     }
 
@@ -146,7 +154,7 @@ card.innerHTML = `
     </div>
     <div class="mb-2">
       ${p.discipline ? `<span class="badge bg-secondary me-1">${p.discipline}</span>` : ""}
-      ${p.status ? `<span class="badge bg-info me-1">${p.status}</span>` : ""}
+      ${p.status ? `<span class="badge bg-primary me-1">${statusDict[p.status]}</span>` : ""}
     </div>
 
     <p class="card-text text-muted">${p.description || ""}</p>
@@ -163,9 +171,9 @@ card.innerHTML = `
 
   ${contact.length > 0 ? `
   <div class="col-md-6 mb-2">
-    <div class="fw-semibold text-muted small mb-1">Contact</div>
-    <div class="fw-semibold mb-1">${p.researcher || "Author"}</div>
-    ${contact.join("")}
+    <div class="fw-semibold text-muted small mb-1">Author</div>
+    <div class="fw-semibold mb-1">${p.researcher || "Author"} ${contact.join("")}</div>
+    
   </div>
   ` : ""}
 

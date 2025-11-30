@@ -123,3 +123,11 @@
         footer {
             flex-shrink: 0;
         }
+
+        .iconred, .iconred:hover, .iconred:active, .iconred:focus {
+            color: lightcoral;
+        }
+
+        .icongreen, .icongreen:hover, .icongreen:active, .icongreen:focus {
+            color: limegreen;
+        }

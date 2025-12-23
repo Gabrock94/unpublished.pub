@@ -68,14 +68,14 @@ async function loadProjects(loadMore = false) {
     // Contact section
     const contact = [];
     if (p.email) {
-      contact.push(`<a href="mailto:${p.email}" class="d-block"><i class="fa-solid fa-envelope"></i> Contact Author</a>`);
+      contact.push(`<a href="mailto:${p.email}"><i class="fa-solid fa-envelope iconred"></i></a>`);
     }
     if (p.researcher) {
       contact.push(
-        `<a href="https://orcid.org/${p.user_id}" target="_blank" class="d-block"><i class="fa-brands fa-orcid"></i> ORCID Profile</a>`
+        `<a href="https://orcid.org/${p.user_id}" target="_blank" ><i class="fa-brands fa-orcid icongreen"></i></a>`
       );
     }
-
+    
 card.innerHTML = `
   <div class="card-body">
 

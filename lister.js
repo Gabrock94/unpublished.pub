@@ -7,6 +7,15 @@ function formatDate(dateString) {
 const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co", 
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
 
+const statusDict = {idea: "Idea",
+written_not_submitted: "Written but not submitted",
+data_collected_not_analyzed: "Data collected, not analyzed",
+data_analyzed: "Data analyzed, not written",
+rejected: "Rejected from journals",
+abandoned: "Abandoned draft",
+thesis: "Published as Thesis",
+no_funding: "No fundings"};
+
 let lastLoaded = 0;
 const pageSize = 5;
 
@@ -76,7 +85,7 @@ card.innerHTML = `
     </div>
     <div class="mb-2">
       ${p.discipline ? `<span class="badge bg-secondary me-1">${p.discipline}</span>` : ""}
-      ${p.status ? `<span class="badge bg-info me-1">${p.status}</span>` : ""}
+      ${p.status ? `<span class="badge bg-primary me-1">${statusDict[p.status]}</span>` : ""}
     </div>
 
     <p class="card-text text-muted">${p.description || ""}</p>
@@ -93,9 +102,9 @@ card.innerHTML = `
 
   ${contact.length > 0 ? `
   <div class="col-md-6 mb-2">
-    <div class="fw-semibold text-muted small mb-1">Contact</div>
-    <div class="fw-semibold mb-1">${p.researcher || "Author"}</div>
-    ${contact.join("")}
+    <div class="fw-semibold text-muted small mb-1">Author</div>
+    <div class="fw-semibold mb-1">${p.researcher || "Author"} ${contact.join("")}</div>
+    
   </div>
   ` : ""}
 

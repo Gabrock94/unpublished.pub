@@ -1,6 +1,6 @@
 const ORCID_AUTH = "https://orcid.org/oauth/authorize";
     const CLIENT_ID = "APP-HIW7OM4YIXTBWLOB";
-    const REDIRECT = "https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/orcid-callback";
+    const REDIRECT = "https://ckdobiuktlxgmdvuuolg.supabase.co/functions/v1/orcid-callback";
 
     document.getElementById("orcid").onclick = () => {
       const url = new URL(ORCID_AUTH);
@@ -36,7 +36,7 @@ const ORCID_AUTH = "https://orcid.org/oauth/authorize";
       }
       
       // Verify session
-      fetch(`https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/get-session?session=${sessionId}`)
+      fetch(`https://ckdobiuktlxgmdvuuolg.supabase.co/functions/v1/get-session?session=${sessionId}`)
         .then(r => r.json())
         .then(data => {
           if (data.authenticated) {
@@ -118,7 +118,7 @@ document.getElementById('saveProjectBtn').addEventListener('click', async () => 
 
   try {
     const res = await fetch(
-      'https://opcqroiixkbrtjjlrsia.supabase.co/functions/v1/add-project',
+      'https://ckdobiuktlxgmdvuuolg.supabase.co/functions/v1/add-project',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

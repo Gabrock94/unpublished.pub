@@ -4,8 +4,8 @@ function formatDate(dateString) {
   return d.toLocaleDateString("en-GB");  // en-GB gives DD/MM/YYYY
 }
 // --- Supabase client --- 
-const supabase = createClient( "https://opcqroiixkbrtjjlrsia.supabase.co", 
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wY3Fyb2lpeGticnRqamxyc2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxNzQ1MzcsImV4cCI6MjA3Nzc1MDUzN30.Rt4dsFqj3m5YKISofcMGCurAI8ZQnEkFFxfyRK-j6FM" );
+const supabase = createClient( "https://ckdobiuktlxgmdvuuolg.supabase.co", 
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNrZG9iaXVrdGx4Z21kdnV1b2xnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMjA1NDQsImV4cCI6MjA5Mzc5NjU0NH0.6STRTQ4XzK5ywg0luQ7t6xB-PKvT6XgWyRFihD1ZKOk" );
 
 const statusDict = {idea: "Idea",
 written_not_submitted: "Written but not submitted",

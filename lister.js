@@ -1,7 +1,8 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 function formatDate(dateString) {
-  const d = new Date(dateString);
-  return d.toLocaleDateString("en-GB");  // en-GB gives DD/MM/YYYY
+  const d = new Date(dateString.replace(" ", "T"));
+  console.log(d.toLocaleDateString("en-GB"));
+  return d.toLocaleDateString("en-GB");
 }
 // --- Supabase client --- 
 const supabase = createClient( "https://ckdobiuktlxgmdvuuolg.supabase.co", 
